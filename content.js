@@ -32,22 +32,6 @@ function isFilteringActive() {
   return true;
 }
 
-// Default rules fallback
-const DEFAULT_RULES_FALLBACK = {
-  enabled: true,
-  blockedKeywords: [],
-  blockedDomains: [],
-  blockedUsers: [],
-  blockedSubreddits: [],
-  blockedFlairs: [],
-  minScore: null,
-  maxAgeHours: null,
-  dedupe: { enabled: true, keepSeenTitlesCount: 500 },
-  pausedUntil: null,
-  focusKeywords: [],
-  focusModeEnabled: false
-};
-
 // Normalize text for matching
 function normalizeText(str) {
   if (!str || typeof str !== "string") return "";
@@ -59,12 +43,6 @@ function textMatchesAnyKeyword(text, keywords) {
   if (!text || !keywords || !keywords.length) return false;
   const lower = text.toLowerCase();
   return keywords.some(kw => lower.includes(kw.toLowerCase()));
-}
-
-// Check if any of the provided texts match any keyword
-function anyTextMatchesKeywords(texts, keywords) {
-  if (!texts || !Array.isArray(texts) || !keywords || !keywords.length) return false;
-  return texts.some(text => textMatchesAnyKeyword(text, keywords));
 }
 
 // Determine if a post should be hidden and return reason

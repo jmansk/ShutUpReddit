@@ -4,7 +4,7 @@ console.log("[RedditFilter] background service worker started");
 const DEFAULT_RULES = {
   enabled: true,          // global on/off
 
-  blockedKeywords: ["chatgpt"],    // strings, matched against title
+  blockedKeywords: ["chatgpt"],    // strings, matched against title and content
   blockedDomains: [],     // e.g. ["tiktok.com", "youtube.com"]
   blockedUsers: [],       // Reddit usernames
   blockedSubreddits: [],  // subreddit names without "r/"
@@ -56,12 +56,8 @@ function saveRules(rules) {
 
 // Initialize rules on startup
 loadRules().then((rules) => {
-  // If rules don't exist or are invalid, save defaults
-  chrome.storage.local.get(RULES_STORAGE_KEY, (result) => {
-    if (!result[RULES_STORAGE_KEY]) {
-      saveRules(getDefaultRules());
-    }
-  });
+  // loadRules() already handles the case when rules don't exist by returning defaults
+  // No need for additional storage check here
 });
 
 // Listen for messages from content scripts and popup
