@@ -1,4 +1,4 @@
-console.log("[RedditFilter] background service worker started");
+console.log("[ShutUpReddit] background service worker started");
 
 // Rules data model
 const DEFAULT_RULES = {
@@ -72,7 +72,7 @@ loadRules().then((rules) => {
 
 // Listen for messages from content scripts and popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("[RedditFilter] Received message:", message);
+  console.log("[ShutUpReddit] Received message:", message);
 
   // Existing PING handlers
   if (message.type === "PING_FROM_CONTENT") {

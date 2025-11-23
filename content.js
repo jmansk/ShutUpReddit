@@ -1,4 +1,4 @@
-console.log("[RedditFilter] content script loaded");
+console.log("[ShutUpReddit] content script loaded");
 
 // Debug mode flag (set to true for verbose logging)
 const DEBUG_MODE = false;
@@ -12,13 +12,13 @@ function refreshRules() {
     { type: "GET_RULES" },
     (response) => {
       if (chrome.runtime.lastError) {
-        console.error("[RedditFilter] Error loading rules:", chrome.runtime.lastError);
+        console.error("[ShutUpReddit] Error loading rules:", chrome.runtime.lastError);
       } else if (response.success) {
         currentRules = response.rules;
-        console.log("[RedditFilter] Loaded rules:", currentRules);
-        console.log("[RedditFilter] Filtering active?", isFilteringActive());
+        console.log("[ShutUpReddit] Loaded rules:", currentRules);
+        console.log("[ShutUpReddit] Filtering active?", isFilteringActive());
       } else {
-        console.error("[RedditFilter] Failed to load rules");
+        console.error("[ShutUpReddit] Failed to load rules");
       }
     }
   );
@@ -357,7 +357,7 @@ function extractPostData(postEl) {
       }
     }
   } catch (error) {
-    console.warn("[RedditFilter] Error extracting post data:", error);
+    console.warn("[ShutUpReddit] Error extracting post data:", error);
   }
 
   return data;
@@ -372,7 +372,7 @@ function processPostElement(postEl) {
   // Debug logging for search results (only on search pages)
   const isSearchResult = isSearchPage() && postEl.matches && postEl.matches(SEARCH_RESULT_SELECTOR);
   if (DEBUG_MODE && isSearchResult) {
-    console.log("[RedditFilter] Search result detected:", data);
+    console.log("[ShutUpReddit] Search result detected:", data);
   }
 
   if (!isFilteringActive()) {
@@ -446,22 +446,22 @@ function scanForPosts(root = document) {
       
       if (root === document) {
         const totalPosts = posts.length + (searchResults.length - Array.from(searchResults).filter(r => r.closest(POST_SELECTOR)).length);
-        console.log("[RedditFilter] Initial scan found", posts.length, "feed posts and", totalPosts - posts.length, "search results");
+        console.log("[ShutUpReddit] Initial scan found", posts.length, "feed posts and", totalPosts - posts.length, "search results");
       }
     } else {
       if (root === document) {
-        console.log("[RedditFilter] Initial scan found", posts.length, "posts");
+        console.log("[ShutUpReddit] Initial scan found", posts.length, "posts");
       }
     }
   } catch (error) {
-    console.warn("[RedditFilter] Error scanning for posts:", error);
+    console.warn("[ShutUpReddit] Error scanning for posts:", error);
   }
 }
 
 // Re-apply filtering to all posts on the page
 function reapplyFiltering() {
   if (!document.body) {
-    console.warn("[RedditFilter] Cannot reapply filtering: DOM not ready");
+    console.warn("[ShutUpReddit] Cannot reapply filtering: DOM not ready");
     return;
   }
   
@@ -479,19 +479,19 @@ function reapplyFiltering() {
       container.removeAttribute("data-rf-hidden");
     });
     
-    console.log("[RedditFilter] Re-filtering triggered due to rule change");
+    console.log("[ShutUpReddit] Re-filtering triggered due to rule change");
     
     // Re-scan all posts with updated rules (includes both feed posts and search results)
     scanForPosts(document);
   } catch (error) {
-    console.warn("[RedditFilter] Error re-applying filtering:", error);
+    console.warn("[ShutUpReddit] Error re-applying filtering:", error);
   }
 }
 
 function setupObserver() {
   const feedRoot = document.body;
   if (!feedRoot) {
-    console.warn("[RedditFilter] No document.body yet");
+    console.warn("[ShutUpReddit] No document.body yet");
     return;
   }
 
@@ -542,8 +542,8 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     const newRules = changes.rf_rules.newValue;
     if (newRules && typeof newRules === "object") {
       currentRules = newRules;
-      console.log("[RedditFilter] Rules updated from storage:", currentRules);
-      console.log("[RedditFilter] Filtering active?", isFilteringActive());
+      console.log("[ShutUpReddit] Rules updated from storage:", currentRules);
+      console.log("[ShutUpReddit] Filtering active?", isFilteringActive());
       
       // Re-apply filtering with new rules
       reapplyFiltering();

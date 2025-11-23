@@ -1,4 +1,4 @@
-# Reddit Filter
+# ShutUpReddit
 
 A Chrome/Brave/Edge browser extension (Manifest V3) that filters Reddit posts directly in the DOM, allowing you to customize your Reddit experience by hiding unwanted content and focusing on what matters to you.
 
@@ -42,8 +42,8 @@ A Chrome/Brave/Edge browser extension (Manifest V3) that filters Reddit posts di
 
 1. **Clone or download this repository**
    ```bash
-   git clone https://github.com/yourusername/reddit-filter.git
-   cd reddit-filter
+   git clone https://github.com/jmansk/ShutUpReddit.git
+   cd ShutUpReddit
    ```
 
 2. **Load the extension in Chrome/Brave/Edge**
@@ -53,17 +53,17 @@ A Chrome/Brave/Edge browser extension (Manifest V3) that filters Reddit posts di
      - Edge: `edge://extensions/`
    - Enable "Developer mode" (toggle in the top right)
    - Click "Load unpacked"
-   - Select the `reddit-filter` directory
+   - Select the `ShutUpReddit` directory
 
 3. **Verify installation**
-   - You should see the Reddit Filter extension in your extensions list
+   - You should see the ShutUpReddit extension in your extensions list
    - Click the extension icon to open the popup and verify it's working
 
 ## Usage
 
 ### Basic Filtering
 
-1. **Open the extension popup** by clicking the Reddit Filter icon in your browser toolbar
+1. **Open the extension popup** by clicking the ShutUpReddit icon in your browser toolbar
 
 2. **Add blocked keywords**:
    - Configure where to match keywords using the checkboxes:
@@ -116,7 +116,7 @@ A Chrome/Brave/Edge browser extension (Manifest V3) that filters Reddit posts di
 ## Project Structure
 
 ```
-reddit-filter/
+ShutUpReddit/
 ├── manifest.json          # Extension manifest (MV3)
 ├── background.js          # Service worker (rules storage, message handling)
 ├── content.js             # Content script (DOM filtering logic)
@@ -174,7 +174,7 @@ reddit-filter/
 1. **Make changes** to the source files
 2. **Reload the extension** in `chrome://extensions/` (click the reload icon)
 3. **Test on Reddit** by navigating to `https://www.reddit.com`
-4. **Check console** for debug logs (prefixed with `[RedditFilter]`)
+4. **Check console** for debug logs (prefixed with `[ShutUpReddit]`)
 
 ### Debug Mode
 
@@ -229,7 +229,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE) (or specify your preferred license).
+This project is open source and available under the [MIT License](LICENSE).
 
 ## Acknowledgments
 

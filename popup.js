@@ -1,4 +1,4 @@
-console.log("[RedditFilter] popup loaded");
+console.log("[ShutUpReddit] popup loaded");
 
 let currentRules = null;
 let currentStats = null;
@@ -8,12 +8,12 @@ let currentStats = null;
 function loadRules(callback) {
   chrome.runtime.sendMessage({ type: "GET_RULES" }, (response) => {
     if (chrome.runtime.lastError) {
-      console.error("[RedditFilter] Error loading rules:", chrome.runtime.lastError);
+      console.error("[ShutUpReddit] Error loading rules:", chrome.runtime.lastError);
       callback && callback(null);
       return;
     }
     if (!response || !response.success) {
-      console.error("[RedditFilter] Failed to load rules");
+      console.error("[ShutUpReddit] Failed to load rules");
       callback && callback(null);
       return;
     }
@@ -27,16 +27,16 @@ function saveRules(updatedRules, callback) {
     { type: "SAVE_RULES", rules: updatedRules },
     (response) => {
       if (chrome.runtime.lastError) {
-        console.error("[RedditFilter] Error saving rules:", chrome.runtime.lastError);
+        console.error("[ShutUpReddit] Error saving rules:", chrome.runtime.lastError);
         callback && callback(false);
         return;
       }
       if (!response || !response.success) {
-        console.error("[RedditFilter] Failed to save rules");
+        console.error("[ShutUpReddit] Failed to save rules");
         callback && callback(false);
         return;
       }
-      console.log("[RedditFilter] Rules saved");
+      console.log("[ShutUpReddit] Rules saved");
       currentRules = updatedRules;
       callback && callback(true);
     }
@@ -46,12 +46,12 @@ function saveRules(updatedRules, callback) {
 function loadStats(callback) {
   chrome.runtime.sendMessage({ type: "GET_STATS" }, (response) => {
     if (chrome.runtime.lastError) {
-      console.error("[RedditFilter] Error loading stats:", chrome.runtime.lastError);
+      console.error("[ShutUpReddit] Error loading stats:", chrome.runtime.lastError);
       callback && callback(null);
       return;
     }
     if (!response || !response.success) {
-      console.error("[RedditFilter] Failed to load stats");
+      console.error("[ShutUpReddit] Failed to load stats");
       callback && callback(null);
       return;
     }
@@ -310,7 +310,7 @@ function wireControls() {
         { type: "SET_ENABLED", enabled },
         (response) => {
           if (chrome.runtime.lastError) {
-            console.error("[RedditFilter] Error SET_ENABLED:", chrome.runtime.lastError);
+            console.error("[ShutUpReddit] Error SET_ENABLED:", chrome.runtime.lastError);
             return;
           }
           if (response && response.success && response.rules) {
@@ -330,7 +330,7 @@ function wireControls() {
         { type: "PAUSE_FOR_30_MINUTES" },
         (response) => {
           if (chrome.runtime.lastError) {
-            console.error("[RedditFilter] Error PAUSE_FOR_30_MINUTES:", chrome.runtime.lastError);
+            console.error("[ShutUpReddit] Error PAUSE_FOR_30_MINUTES:", chrome.runtime.lastError);
             return;
           }
           if (response && response.success && response.rules) {
@@ -412,7 +412,7 @@ function wireControls() {
         { type: "PING_FROM_POPUP" },
         (response) => {
           if (chrome.runtime.lastError) {
-            console.error("[RedditFilter] Error ping:", chrome.runtime.lastError);
+            console.error("[ShutUpReddit] Error ping:", chrome.runtime.lastError);
             pingStatus.textContent = "Ping error (check console)";
             return;
           }
@@ -429,7 +429,7 @@ function wireControls() {
           { type: "RESET_STATS" },
           (response) => {
             if (chrome.runtime.lastError) {
-              console.error("[RedditFilter] Error resetting stats:", chrome.runtime.lastError);
+              console.error("[ShutUpReddit] Error resetting stats:", chrome.runtime.lastError);
               return;
             }
             if (response && response.success) {
