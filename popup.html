@@ -84,6 +84,9 @@
     #pause-btn:hover {
       background-color: #5a6268;
     }
+    #reset-filters-btn:hover {
+      background-color: #c82333;
+    }
     .summary-chips {
       display: flex;
       flex-wrap: wrap;
@@ -401,7 +404,10 @@
         </label>
         <span class="hidden-badge" id="hidden-badge">Hidden: 0</span>
       </div>
-      <button id="pause-btn">Pause for 30 minutes</button>
+      <div style="display: flex; gap: 8px; margin-top: 8px;">
+        <button id="pause-btn">Pause for 30 minutes</button>
+        <button id="reset-filters-btn" style="padding: 6px 12px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">Reset Filters</button>
+      </div>
       <div class="summary-chips" id="summary-chips"></div>
     </div>
 
@@ -525,6 +531,8 @@
         <div class="debug-content">
           <button id="ping-btn">Ping background</button>
           <div id="ping-status"></div>
+          <button id="view-stored-filters-btn" style="margin-top: 8px;">View Stored Filters</button>
+          <div id="stored-filters-display" style="margin-top: 8px; padding: 8px; background-color: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 11px; max-height: 200px; overflow-y: auto; display: none;"></div>
         </div>
       </details>
     </div>

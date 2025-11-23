@@ -4,7 +4,7 @@ console.log("[ShutUpReddit] background service worker started");
 const DEFAULT_RULES = {
   enabled: true,          // global on/off
 
-  blockedKeywords: ["chatgpt"],    // strings, matched against title and content
+  blockedKeywords: [],    // strings, matched against title and content
   blockedKeywordsMatchIn: {       // where to match blocked keywords
     title: true,
     content: true,

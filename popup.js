@@ -296,6 +296,9 @@ function wireControls() {
   const pingBtn = document.getElementById("ping-btn");
   const pingStatus = document.getElementById("ping-status");
   const resetStatsBtn = document.getElementById("reset-stats-btn");
+  const resetFiltersBtn = document.getElementById("reset-filters-btn");
+  const viewStoredFiltersBtn = document.getElementById("view-stored-filters-btn");
+  const storedFiltersDisplay = document.getElementById("stored-filters-display");
   const blockedMatchTitle = document.getElementById("blocked-match-title");
   const blockedMatchContent = document.getElementById("blocked-match-content");
   const blockedMatchAuthor = document.getElementById("blocked-match-author");
@@ -437,6 +440,78 @@ function wireControls() {
             }
           }
         );
+      }
+    });
+  }
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener("click", () => {
+      if (confirm("Reset all filters to defaults? This will remove all your blocked keywords, focus keywords, and other filter settings. This cannot be undone.")) {
+        chrome.runtime.sendMessage(
+          { type: "RESET_RULES" },
+          (response) => {
+            if (chrome.runtime.lastError) {
+              console.error("[ShutUpReddit] Error resetting rules:", chrome.runtime.lastError);
+              return;
+            }
+            if (response && response.success && response.rules) {
+              currentRules = response.rules;
+              // Refresh UI
+              const enabledToggle = document.getElementById("enabled-toggle");
+              if (enabledToggle) {
+                enabledToggle.checked = !!currentRules.enabled;
+              }
+              const focusModeToggle = document.getElementById("focusModeToggle");
+              if (focusModeToggle) {
+                focusModeToggle.checked = !!currentRules.focusModeEnabled;
+              }
+              // Load blocked keywords match options
+              const blockedMatchIn = currentRules.blockedKeywordsMatchIn || { title: true, content: true, author: false };
+              const blockedMatchTitle = document.getElementById("blocked-match-title");
+              const blockedMatchContent = document.getElementById("blocked-match-content");
+              const blockedMatchAuthor = document.getElementById("blocked-match-author");
+              if (blockedMatchTitle) blockedMatchTitle.checked = !!blockedMatchIn.title;
+              if (blockedMatchContent) blockedMatchContent.checked = !!blockedMatchIn.content;
+              if (blockedMatchAuthor) blockedMatchAuthor.checked = !!blockedMatchIn.author;
+              // Load focus keywords match options
+              const focusMatchIn = currentRules.focusKeywordsMatchIn || { title: true, content: true, author: true };
+              const focusMatchTitle = document.getElementById("focus-match-title");
+              const focusMatchContent = document.getElementById("focus-match-content");
+              const focusMatchAuthor = document.getElementById("focus-match-author");
+              if (focusMatchTitle) focusMatchTitle.checked = !!focusMatchIn.title;
+              if (focusMatchContent) focusMatchContent.checked = !!focusMatchIn.content;
+              if (focusMatchAuthor) focusMatchAuthor.checked = !!focusMatchIn.author;
+              // Update UI
+              updateStatusBanner();
+              updateSummaryChips();
+              updateRuleCounts();
+              renderKeywordList();
+              renderFocusKeywordList();
+            }
+          }
+        );
+      }
+    });
+  }
+
+  if (viewStoredFiltersBtn && storedFiltersDisplay) {
+    viewStoredFiltersBtn.addEventListener("click", () => {
+      if (storedFiltersDisplay.style.display === "none" || !storedFiltersDisplay.style.display) {
+        // Show stored filters
+        loadRules((rules) => {
+          if (rules) {
+            storedFiltersDisplay.textContent = JSON.stringify(rules, null, 2);
+            storedFiltersDisplay.style.display = "block";
+            viewStoredFiltersBtn.textContent = "Hide Stored Filters";
+          } else {
+            storedFiltersDisplay.textContent = "Error loading filters";
+            storedFiltersDisplay.style.display = "block";
+          }
+        });
+      } else {
+        // Hide stored filters
+        storedFiltersDisplay.style.display = "none";
+        viewStoredFiltersBtn.textContent = "View Stored Filters";
       }
     });
   }

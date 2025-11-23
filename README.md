@@ -2,6 +2,12 @@
 
 A Chrome/Brave/Edge browser extension (Manifest V3) that filters Reddit posts directly in the DOM, allowing you to customize your Reddit experience by hiding unwanted content and focusing on what matters to you.
 
+## 💝 Support This Project
+
+If you find ShutUpReddit useful, consider [tipping the developer](https://buy.stripe.com/aFa6oG5NN0j621IdLx2Nq00). Tips go towards my son's Christmas present! 🎄
+
+**[Tip via Stripe →](https://buy.stripe.com/aFa6oG5NN0j621IdLx2Nq00)**
+
 ## Features
 
 ### 🚫 Blocking Filters
@@ -234,6 +240,8 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Acknowledgments
 
 Built to improve the Reddit browsing experience by giving users more control over their feed content.
+
+**Support the project:** If you enjoy using ShutUpReddit, [consider leaving a tip](https://buy.stripe.com/aFa6oG5NN0j621IdLx2Nq00). Your support helps fund my son's Christmas present! 🎁
 
 ---
 
