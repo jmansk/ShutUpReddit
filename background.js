@@ -5,6 +5,11 @@ const DEFAULT_RULES = {
   enabled: true,          // global on/off
 
   blockedKeywords: ["chatgpt"],    // strings, matched against title and content
+  blockedKeywordsMatchIn: {       // where to match blocked keywords
+    title: true,
+    content: true,
+    author: false
+  },
   blockedDomains: [],     // e.g. ["tiktok.com", "youtube.com"]
   blockedUsers: [],       // Reddit usernames
   blockedSubreddits: [],  // subreddit names without "r/"
@@ -23,7 +28,12 @@ const DEFAULT_RULES = {
 
   // Focus mode
   focusKeywords: [],        // only-show keywords
-  focusModeEnabled: false   // master toggle
+  focusModeEnabled: false,  // master toggle
+  focusKeywordsMatchIn: {   // where to match focus keywords
+    title: true,
+    content: true,
+    author: true
+  }
 };
 
 // Storage helpers

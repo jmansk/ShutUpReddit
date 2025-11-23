@@ -169,6 +169,31 @@
       color: #666;
       margin-bottom: 8px;
     }
+    .match-options {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding: 8px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+    }
+    .match-option {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      user-select: none;
+    }
+    .match-option input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .match-option span {
+      color: #555;
+    }
     .pill-list {
       display: flex;
       flex-wrap: wrap;
@@ -389,6 +414,20 @@
         <div class="filter-block-title">
           Blocked Keywords <span class="count" id="blocked-keywords-count">(0)</span>
         </div>
+        <div class="match-options">
+          <label class="match-option">
+            <input type="checkbox" id="blocked-match-title" checked />
+            <span>Match in titles</span>
+          </label>
+          <label class="match-option">
+            <input type="checkbox" id="blocked-match-content" checked />
+            <span>Match in content</span>
+          </label>
+          <label class="match-option">
+            <input type="checkbox" id="blocked-match-author" />
+            <span>Match in authors</span>
+          </label>
+        </div>
         <div class="input-row">
           <input
             type="text"
@@ -397,7 +436,7 @@
           />
           <button id="add-keyword-btn">Add</button>
         </div>
-        <div class="hint-text">Matches post titles and content (case-insensitive)</div>
+        <div class="hint-text">Matches selected fields (case-insensitive)</div>
         <ul id="keyword-list" class="keyword-list"></ul>
       </div>
 
@@ -412,8 +451,22 @@
             Only show posts matching focus keywords
           </label>
         </div>
+        <div class="match-options">
+          <label class="match-option">
+            <input type="checkbox" id="focus-match-title" checked />
+            <span>Match in titles</span>
+          </label>
+          <label class="match-option">
+            <input type="checkbox" id="focus-match-content" checked />
+            <span>Match in content</span>
+          </label>
+          <label class="match-option">
+            <input type="checkbox" id="focus-match-author" checked />
+            <span>Match in authors</span>
+          </label>
+        </div>
         <div class="hint-text">
-          Show only posts that match at least one focus keyword in the title, content, or author.
+          Show only posts that match at least one focus keyword in the selected fields.
         </div>
         <div class="input-row">
           <input

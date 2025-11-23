@@ -296,6 +296,12 @@ function wireControls() {
   const pingBtn = document.getElementById("ping-btn");
   const pingStatus = document.getElementById("ping-status");
   const resetStatsBtn = document.getElementById("reset-stats-btn");
+  const blockedMatchTitle = document.getElementById("blocked-match-title");
+  const blockedMatchContent = document.getElementById("blocked-match-content");
+  const blockedMatchAuthor = document.getElementById("blocked-match-author");
+  const focusMatchTitle = document.getElementById("focus-match-title");
+  const focusMatchContent = document.getElementById("focus-match-content");
+  const focusMatchAuthor = document.getElementById("focus-match-author");
 
   if (enabledToggle) {
     enabledToggle.addEventListener("change", () => {
@@ -434,6 +440,80 @@ function wireControls() {
       }
     });
   }
+
+  // Wire up blocked keywords match options
+  if (blockedMatchTitle) {
+    blockedMatchTitle.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.blockedKeywordsMatchIn) {
+        updated.blockedKeywordsMatchIn = { title: true, content: true, author: false };
+      }
+      updated.blockedKeywordsMatchIn.title = blockedMatchTitle.checked;
+      saveRules(updated, () => {});
+    });
+  }
+
+  if (blockedMatchContent) {
+    blockedMatchContent.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.blockedKeywordsMatchIn) {
+        updated.blockedKeywordsMatchIn = { title: true, content: true, author: false };
+      }
+      updated.blockedKeywordsMatchIn.content = blockedMatchContent.checked;
+      saveRules(updated, () => {});
+    });
+  }
+
+  if (blockedMatchAuthor) {
+    blockedMatchAuthor.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.blockedKeywordsMatchIn) {
+        updated.blockedKeywordsMatchIn = { title: true, content: true, author: false };
+      }
+      updated.blockedKeywordsMatchIn.author = blockedMatchAuthor.checked;
+      saveRules(updated, () => {});
+    });
+  }
+
+  // Wire up focus keywords match options
+  if (focusMatchTitle) {
+    focusMatchTitle.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.focusKeywordsMatchIn) {
+        updated.focusKeywordsMatchIn = { title: true, content: true, author: true };
+      }
+      updated.focusKeywordsMatchIn.title = focusMatchTitle.checked;
+      saveRules(updated, () => {});
+    });
+  }
+
+  if (focusMatchContent) {
+    focusMatchContent.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.focusKeywordsMatchIn) {
+        updated.focusKeywordsMatchIn = { title: true, content: true, author: true };
+      }
+      updated.focusKeywordsMatchIn.content = focusMatchContent.checked;
+      saveRules(updated, () => {});
+    });
+  }
+
+  if (focusMatchAuthor) {
+    focusMatchAuthor.addEventListener("change", () => {
+      if (!currentRules) return;
+      const updated = { ...currentRules };
+      if (!updated.focusKeywordsMatchIn) {
+        updated.focusKeywordsMatchIn = { title: true, content: true, author: true };
+      }
+      updated.focusKeywordsMatchIn.author = focusMatchAuthor.checked;
+      saveRules(updated, () => {});
+    });
+  }
 }
 
 // --- Init ---
@@ -453,6 +533,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (focusModeToggle) {
       focusModeToggle.checked = !!rules.focusModeEnabled;
     }
+
+    // Load blocked keywords match options
+    const blockedMatchIn = rules.blockedKeywordsMatchIn || { title: true, content: true, author: false };
+    const blockedMatchTitle = document.getElementById("blocked-match-title");
+    const blockedMatchContent = document.getElementById("blocked-match-content");
+    const blockedMatchAuthor = document.getElementById("blocked-match-author");
+    if (blockedMatchTitle) blockedMatchTitle.checked = !!blockedMatchIn.title;
+    if (blockedMatchContent) blockedMatchContent.checked = !!blockedMatchIn.content;
+    if (blockedMatchAuthor) blockedMatchAuthor.checked = !!blockedMatchIn.author;
+
+    // Load focus keywords match options
+    const focusMatchIn = rules.focusKeywordsMatchIn || { title: true, content: true, author: true };
+    const focusMatchTitle = document.getElementById("focus-match-title");
+    const focusMatchContent = document.getElementById("focus-match-content");
+    const focusMatchAuthor = document.getElementById("focus-match-author");
+    if (focusMatchTitle) focusMatchTitle.checked = !!focusMatchIn.title;
+    if (focusMatchContent) focusMatchContent.checked = !!focusMatchIn.content;
+    if (focusMatchAuthor) focusMatchAuthor.checked = !!focusMatchIn.author;
 
     updateStatusBanner();
     updateSummaryChips();

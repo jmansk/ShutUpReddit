@@ -54,24 +54,52 @@ function shouldHidePost(data) {
   const author = normalizeText(data.author);
   const rules = currentRules;
 
-  // 1) Blocked keywords always win - check both title AND content
+  // 1) Blocked keywords always win - check based on user configuration
   if (rules.blockedKeywords && rules.blockedKeywords.length) {
-    const titleMatches = textMatchesAnyKeyword(title, rules.blockedKeywords);
-    const contentMatches = textMatchesAnyKeyword(content, rules.blockedKeywords);
-    if (titleMatches || contentMatches) {
+    const matchIn = rules.blockedKeywordsMatchIn || { title: true, content: true, author: false };
+    let shouldBlock = false;
+    
+    if (matchIn.title) {
+      const titleMatches = textMatchesAnyKeyword(title, rules.blockedKeywords);
+      if (titleMatches) shouldBlock = true;
+    }
+    
+    if (matchIn.content) {
+      const contentMatches = textMatchesAnyKeyword(content, rules.blockedKeywords);
+      if (contentMatches) shouldBlock = true;
+    }
+    
+    if (matchIn.author) {
+      const authorMatches = author && textMatchesAnyKeyword(author, rules.blockedKeywords);
+      if (authorMatches) shouldBlock = true;
+    }
+    
+    if (shouldBlock) {
       return { hide: true, reason: "blockedKeyword" };
     }
   }
 
-  // 2) Focus mode: if enabled and focusKeywords set, hide if title, content, OR author don't match any
+  // 2) Focus mode: if enabled and focusKeywords set, hide if configured fields don't match any
   if (rules.focusModeEnabled && rules.focusKeywords && rules.focusKeywords.length) {
-    const titleMatches = textMatchesAnyKeyword(title, rules.focusKeywords);
-    const contentMatches = textMatchesAnyKeyword(content, rules.focusKeywords);
-    const authorMatches = author && textMatchesAnyKeyword(author, rules.focusKeywords);
+    const matchIn = rules.focusKeywordsMatchIn || { title: true, content: true, author: true };
+    let matchesFocus = false;
     
-    // Post matches focus if ANY of title, content, or author matches
-    const matchesFocus = titleMatches || contentMatches || authorMatches;
+    if (matchIn.title) {
+      const titleMatches = textMatchesAnyKeyword(title, rules.focusKeywords);
+      if (titleMatches) matchesFocus = true;
+    }
     
+    if (matchIn.content) {
+      const contentMatches = textMatchesAnyKeyword(content, rules.focusKeywords);
+      if (contentMatches) matchesFocus = true;
+    }
+    
+    if (matchIn.author) {
+      const authorMatches = author && textMatchesAnyKeyword(author, rules.focusKeywords);
+      if (authorMatches) matchesFocus = true;
+    }
+    
+    // Post matches focus if ANY of the enabled fields matches
     if (!matchesFocus) {
       return { hide: true, reason: "focusMode" }; // hide everything that isn't "on topic"
     }
